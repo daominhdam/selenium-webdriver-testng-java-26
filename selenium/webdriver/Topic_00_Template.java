@@ -11,10 +11,16 @@ import org.testng.annotations.Test;
 public class Topic_00_Template {
 	WebDriver driver;
 	String projectPath = System.getProperty("user.dir");
+	String osName = System.getProperty("os.name");
 
 	@BeforeClass
 	public void beforeClass() {
-		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
+		if (osName.contains("Mac")) { // Mac
+			System.setProperty("webdriver.gecko.driver", projectPath + "/browserDrivers/geckodriver");
+		} else { // Windows
+			System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
+		}
+		
 		driver = new FirefoxDriver();
 
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
