@@ -1,9 +1,15 @@
 package webdriver;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -12,6 +18,8 @@ public class Topic_00_Template {
 	WebDriver driver;
 	String projectPath = System.getProperty("user.dir");
 	String osName = System.getProperty("os.name");
+	JavascriptExecutor jsExecutor;
+	Actions action;
 
 	@BeforeClass
 	public void beforeClass() {
@@ -20,24 +28,17 @@ public class Topic_00_Template {
 		} else { // Windows
 			System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
 		}
-		
-		driver = new FirefoxDriver();
 
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver = new FirefoxDriver();
+		jsExecutor = (JavascriptExecutor) driver;
+		action = new Actions(driver);
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 	}
 
 	@Test
 	public void TC_01_() {
-		driver.get("https://www.facebook.com/");
-		
-		sleepInSecond(3);
-	}
-
-	@Test
-	public void TC_02_() {
-		
-		sleepInSecond(5);
 	}
 
 	@AfterClass
@@ -45,7 +46,6 @@ public class Topic_00_Template {
 		driver.quit();
 	}
 
-	// Sleep cứng (Static wait)
 	public void sleepInSecond(long timeInSecond) {
 		try {
 			Thread.sleep(timeInSecond * 1000);
@@ -53,5 +53,5 @@ public class Topic_00_Template {
 			e.printStackTrace();
 		}
 	}
-	
+
 }
