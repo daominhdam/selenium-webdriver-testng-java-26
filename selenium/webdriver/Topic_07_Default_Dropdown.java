@@ -1,5 +1,7 @@
 package webdriver;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +41,7 @@ public class Topic_07_Default_Dropdown {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
+	@Test
 	public void TC_01_Default_Dropdown() {
 		driver.get("https://demo.nopcommerce.com/");
 
@@ -51,8 +54,29 @@ public class Topic_07_Default_Dropdown {
 		select = new Select(driver.findElement(By.cssSelector("select[name='DateOfBirthDay']")));
 		select.selectByVisibleText("13");
 
+		// Dropdown item expected
+		String[] monthExpected = { "Month", "January", "February", "March", "April", 
+				"May", "June", "July", "August",
+				"September", "October", "November", "December" };
+
 		// Khởi tạo select để thao tác vs Month dropdown
 		select = new Select(driver.findElement(By.cssSelector("select[name='DateOfBirthMonth']")));
+		
+		// Lấy ra tất cả các item đưa vào List Element
+		List<WebElement> monthItems = select.getOptions();
+
+		// Khai báo ArrayList để chứa text get ra từ List Element trên
+		List<String> monthItemText = new ArrayList<String>();
+
+		// Duyệt vòng lặp
+		for (WebElement element : monthItems) {
+			// Add vào ArrayList
+			monthItemText.add(element.getText());
+		}
+
+		// Verify bằng nhau
+		Assert.assertEquals(monthItemText, Arrays.asList(monthExpected));
+
 		select.selectByVisibleText("May");
 
 		// Khởi tạo select để thao tác vs Year dropdown
@@ -88,7 +112,6 @@ public class Topic_07_Default_Dropdown {
 		Assert.assertEquals(driver.findElement(By.cssSelector("input#Company")).getAttribute("value"), "White House");
 	}
 
-	@Test
 	public void TC_02_Default_Dropdown() {
 		driver.get("https://rode.com/en/support/where-to-buy");
 
